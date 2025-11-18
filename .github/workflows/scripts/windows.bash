@@ -17,9 +17,21 @@ mkdir soplex_build
 export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
 export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
 export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
-cmake -G "Visual Studio 17 2022" -B soplex_build -DCMAKE_INSTALL_PREFIX=../scip_install -DCMAKE_BUILD_TYPE=Release -DBoost=true -DPAPILO=false -DGMP=false -DZLIB=false -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+cmake -G "Visual Studio 17 2022" -B soplex_build -DCMAKE_INSTALL_PREFIX=../scip_install -DCMAKE_BUILD_TYPE=Release -DBoost=true -DPAPILO=true -DGMP=false -DZLIB=false -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 cmake --build soplex_build --config Release
 cmake --install soplex_build
+
+cd $GITHUB_WORKSPACE
+wget https://github.com/scipopt/papilo/archive/refs/tags/v$PAPILO_VERSION.zip
+unzip v$PAPILO_VERSION.zip
+cd papilo-$PAPILO_VERSION
+mkdir papilo_build
+export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
+export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
+export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
+cmake -G "Visual Studio 17 2022" -B papilo_build -DCMAKE_INSTALL_PREFIX=../scip_install -DCMAKE_BUILD_TYPE=Release -DBoost=true -DGMP=false -DZLIB=false -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+cmake --build papilo_build --config Release
+cmake --install papilo_build
 
 cd $GITHUB_WORKSPACE
 mkdir $GITHUB_WORKSPACE/scip_build
@@ -36,18 +48,6 @@ cmake --install scip_build
 if [ "$TESTS" = "ON" ]; then
   ctest
 fi
-
-cd $GITHUB_WORKSPACE
-wget https://github.com/scipopt/papilo/archive/refs/tags/v$PAPILO_VERSION.zip
-unzip v$PAPILO_VERSION.zip
-cd papilo-$PAPILO_VERSION
-mkdir papilo_build
-export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools"
-export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.37.32822/bin/Hostx64/x64"
-export PATH="$PATH:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
-cmake -G "Visual Studio 17 2022" -B papilo_build -DCMAKE_INSTALL_PREFIX=../scip_install -DCMAKE_BUILD_TYPE=Release -DBoost=true -DGMP=false -DZLIB=false -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-cmake --build papilo_build --config Release
-cmake --install papilo_build
 
 cd $GITHUB_WORKSPACE
 wget https://github.com/scipopt/gcg/archive/refs/tags/v$GCG_VERSION.zip
