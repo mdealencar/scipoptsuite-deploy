@@ -32,31 +32,6 @@ name: Build Binaries
 on:
     workflow_dispatch:
         inputs:
-            gcg_version:
-                type: string
-                description: GCG version to use
-                required: true
-                default: "3.7.2"
-            scip_version:
-                type: string
-                description: SCIP version to use
-                required: true
-                default: "9.2.4"
-            soplex_version:
-                type: string
-                description: Soplex version to use
-                required: true
-                default: "7.1.6"
-            papilo_version:
-                type: string
-                description: PaPILO version to use
-                required: true
-                default: "2.4.4"
-            ipopt_version:
-                type: string
-                description: IPOPT version to use
-                required: true
-                default: "3.14.19"
             linux:
                 type: boolean
                 description: Build for Linux (Intel and ARM)
@@ -90,17 +65,24 @@ on:
                 description: Use cached dependencies
                 default: true
 
+env:
+    gcg_version: "3.7.2"
+    scip_version: "9.2.4"
+    soplex_version: "7.1.6"
+    papilo_version: "2.4.4"
+    ipopt_version: "3.14.19"
+
 jobs:
     print-inputs:
       runs-on: ubuntu-latest
       steps:
           - name: Print inputs
             run: |
-              echo "SCIP version: ${{github.event.inputs.scip_version}}"
-              echo "GCG version: ${{github.event.inputs.gcg_version}}"
-              echo "Soplex version: ${{github.event.inputs.soplex_version}}"
-              echo "PaPILO version: ${{github.event.inputs.papilo_version}}"
-              echo "IPOPT version: ${{github.event.inputs.ipopt_version}}"
+              echo "SCIP version: ${{scip_version}}"
+              echo "GCG version: ${{gcg_version}}"
+              echo "Soplex version: ${{soplex_version}}"
+              echo "PaPILO version: ${{papilo_version}}"
+              echo "IPOPT version: ${{ipopt_version}}"
               echo "Debug?: ${{github.event.inputs.debug}}"
               echo "Static?: ${{github.event.inputs.static}}"
               echo "Use cached dependncies?: ${{github.event.inputs.use_cached_dependencies}}"
@@ -112,11 +94,11 @@ jobs:
             - uses: actions/checkout@v4
             - name: Build and install SCIP
               run: |
-                export SCIP_VERSION=$(echo "${{github.event.inputs.scip_version}}" | tr -d '.')
-                export GCG_VERSION=$(echo "${{github.event.inputs.gcg_version}}" | tr -d '.')
-                export SOPLEX_VERSION=$(echo "${{github.event.inputs.soplex_version}}" | tr -d '.')
-                export PAPILO_VERSION=$(echo "${{github.event.inputs.papilo_version}}" | tr -d '.')
-                export IPOPT_VERSION=${{ github.event.inputs.ipopt_version }}
+                export SCIP_VERSION=$(echo "${{scip_version}}" | tr -d '.')
+                export GCG_VERSION=$(echo "${{gcg_version}}" | tr -d '.')
+                export SOPLEX_VERSION=$(echo "${{soplex_version}}" | tr -d '.')
+                export PAPILO_VERSION=$(echo "${{papilo_version}}" | tr -d '.')
+                export IPOPT_VERSION=${{ ipopt_version }}
                 if [ "${{github.event.inputs.debug}}" = "true" ]; then
                     export BUILD_MODE=Debug
                 else
@@ -158,11 +140,11 @@ jobs:
             version: 13
         - name: Build and install SCIP
           run: |
-            export SCIP_VERSION=$(echo "${{github.event.inputs.scip_version}}" | tr -d '.')
-            export GCG_VERSION=$(echo "${{github.event.inputs.gcg_version}}" | tr -d '.')
-            export SOPLEX_VERSION=$(echo "${{github.event.inputs.soplex_version}}" | tr -d '.')
-            export PAPILO_VERSION=${{ github.event.inputs.papilo_version }}
-            export IPOPT_VERSION=${{ github.event.inputs.ipopt_version }}
+            export SCIP_VERSION=$(echo "${{scip_version}}" | tr -d '.')
+            export GCG_VERSION=$(echo "${{gcg_version}}" | tr -d '.')
+            export SOPLEX_VERSION=$(echo "${{soplex_version}}" | tr -d '.')
+            export PAPILO_VERSION=${{ papilo_version }}
+            export IPOPT_VERSION=${{ ipopt_version }}
             if [ "${{github.event.inputs.debug}}" = "true" ]; then
                 export BUILD_MODE=Debug
             else
@@ -201,11 +183,11 @@ jobs:
             - uses: actions/checkout@v4
             - name: Build and install SCIP
               run: |
-                export SCIP_VERSION=$(echo "${{github.event.inputs.scip_version}}" | tr -d '.')
-                export GCG_VERSION=$(echo "${{github.event.inputs.gcg_version}}" | tr -d '.')
-                export SOPLEX_VERSION=$(echo "${{github.event.inputs.soplex_version}}" | tr -d '.')
-                export PAPILO_VERSION=${{ github.event.inputs.papilo_version }}
-                export IPOPT_VERSION=${{ github.event.inputs.ipopt_version }}
+                export SCIP_VERSION=$(echo "${{scip_version}}" | tr -d '.')
+                export GCG_VERSION=$(echo "${{gcg_version}}" | tr -d '.')
+                export SOPLEX_VERSION=$(echo "${{soplex_version}}" | tr -d '.')
+                export PAPILO_VERSION=${{ papilo_version }}
+                export IPOPT_VERSION=${{ ipopt_version }}
                 if [ "${{github.event.inputs.debug}}" = "true" ]; then
                     export BUILD_MODE=Debug
                 else
@@ -243,11 +225,11 @@ jobs:
             - uses: actions/checkout@v4
             - name: Build and install SCIP
               run: |
-                export SCIP_VERSION=$(echo "${{github.event.inputs.scip_version}}" | tr -d '.')
-                export GCG_VERSION=$(echo "${{github.event.inputs.gcg_version}}" | tr -d '.')
-                export SOPLEX_VERSION=$(echo "${{github.event.inputs.soplex_version}}" | tr -d '.')
-                export PAPILO_VERSION=${{ github.event.inputs.papilo_version }}
-                export IPOPT_VERSION=${{ github.event.inputs.ipopt_version }}
+                export SCIP_VERSION=$(echo "${{scip_version}}" | tr -d '.')
+                export GCG_VERSION=$(echo "${{gcg_version}}" | tr -d '.')
+                export SOPLEX_VERSION=$(echo "${{soplex_version}}" | tr -d '.')
+                export PAPILO_VERSION=${{ papilo_version }}
+                export IPOPT_VERSION=${{ ipopt_version }}
                 if [ "${{github.event.inputs.debug}}" = "true" ]; then
                     export BUILD_MODE=Debug
                 else
@@ -285,11 +267,11 @@ jobs:
 
           - name: Build and install SCIP
             run:  |
-              export SCIP_VERSION=$(echo "${{github.event.inputs.scip_version}}" | tr -d '.')
-              export GCG_VERSION=$(echo "${{github.event.inputs.gcg_version}}" | tr -d '.')
-              export SOPLEX_VERSION=$(echo "${{github.event.inputs.soplex_version}}" | tr -d '.')
-              export PAPILO_VERSION=${{ github.event.inputs.papilo_version }}
-              export IPOPT_VERSION=${{ github.event.inputs.ipopt_version }}
+              export SCIP_VERSION=$(echo "${{scip_version}}" | tr -d '.')
+              export GCG_VERSION=$(echo "${{gcg_version}}" | tr -d '.')
+              export SOPLEX_VERSION=$(echo "${{soplex_version}}" | tr -d '.')
+              export PAPILO_VERSION=${{ papilo_version }}
+              export IPOPT_VERSION=${{ ipopt_version }}
               if [ "${{github.event.inputs.debug}}" = "true" ]; then
                   export BUILD_MODE=Debug
               else
